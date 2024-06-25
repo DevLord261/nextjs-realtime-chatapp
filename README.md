@@ -1,5 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
+a realtime chat app using nextjs and socket.io for message
 ## Getting Started
 
 First, run the development server:
@@ -14,6 +13,15 @@ pnpm dev
 bun dev
 ```
 
+to run the socket.io server run:
+```
+node --watch backend/server.js
+
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-simple realtime chat app still under constructions its a learning path only
+
+## Future features 
+
+Sqlite for saving chats and users instead of firebase 
