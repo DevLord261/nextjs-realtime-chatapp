@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.rootpage {
+  background-color: #27262c;
+}
+
+@font-face {
+  font-family: "JK Abode";
+  src: url("../../public/fonts/JKAbode-Demo.ttf") format("truetype");
+}
+.title {
+  color: var(--withe, #fff);
+  /* titel */
+  font-family: "JK Abode", sans-serif;
+  font-size: 69px;
+  line-height: normal;
+}
+
+.input {
+  background-color: transparent;
+  border-bottom: 2px solid white;
+  outline: none;
+  @apply h-10;
+}
+
+.loginbtn {
+  background: var(--praimery, #4044ed);
+  padding: 10px;
+}
+
+.loginbtn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

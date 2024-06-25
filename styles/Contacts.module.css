@@ -1,0 +1,17 @@
+.bubble {
+  font-weight: bold;
+  color: lightskyblue;
+}
+
+.search {
+  background-image: url("../public/fe_search.svg");
+  background-repeat: no-repeat;
+  background-position: 10px;
+  background-color: transparent;
+  padding-left: 40px;
+  height: 2.5rem;
+  border-radius: 10px;
+  border-color: gray;
+  border-width: 1px;
+  @apply w-full;
+}
