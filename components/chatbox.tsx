@@ -70,7 +70,7 @@ function Mainchat() {
       <div className="scrollbox container overflow-y-auto">
         {/* msg box */}
         {messages.map((message) => (
-          <Box checkwho={message.whosend}></Box>
+          <Box key="1" checkwho={message.whosend}></Box>
         ))}
       </div>
       {/* message box */}
