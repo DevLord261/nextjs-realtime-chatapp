@@ -1,46 +1,63 @@
 "use client";
-import { auth } from "@/backend/fbcontext";
+
 import "../Auth.css";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Register() {
+  const API = process.env.NEXT_PUBLIC_BASE_API_URL;
   const [username, setusername] = useState("");
   const [pass, setpass] = useState("");
   const [confirmpassword, setconfirmpass] = useState("");
-  const [isvalid, setisvalid] = useState(true);
-
+  const [isvalid, setisvalid] = useState(false);
+  const [cansubmit, setsubmit] = useState(true);
   const route = useRouter();
-  onAuthStateChanged(auth, (_user) => {
-    if (_user) route.push("/");
-  });
+
+  const checkexisteduser = async (name: string) => {
+    try {
+      await axios
+        .post(`${API}/checkuser`, {
+          username: name,
+        })
+        .then((res) => {
+          setisvalid(res.data.exists);
+          setusername(name);
+        });
+    } catch (e: any) {
+      console.error(e.message);
+    }
+  };
 
   const reg = async (e: any) => {
     e.preventDefault();
-    await createUserWithEmailAndPassword(auth, username, pass)
-      .then((_user) => {
-        console.log(_user.user);
-        route.push("/");
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-  };
-
-  const validate = () => {
-    if (confirmpassword == pass) setisvalid(true);
-    else setisvalid(false);
+    try {
+      await axios
+        .post(`${API}/register`, {
+          username: username,
+          password: pas,
+        })
+        .then((res) => {
+          console.log(res);
+          route.push("/");
+        });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   useEffect(() => {
-    if (pass != "" || confirmpassword != "") validate();
-    if (username == "") setisvalid(false);
-  }, [confirmpassword, pass, username]);
+    if (
+      pass == confirmpassword &&
+      pass != "" &&
+      confirmpassword != "" &&
+      pass.length > 7 &&
+      !isvalid
+    )
+      setsubmit(false);
+    else setsubmit(true);
+  }, [pass, confirmpassword, username]);
 
   return (
     <div className="rootpage flex h-screen w-screen flex-col items-center justify-center">
@@ -52,12 +69,31 @@ function Register() {
           method="post"
           onSubmit={reg}
         >
+          {isvalid && (
+            <div className="mt-2 flex items-center rounded-lg bg-red-800 p-3 text-white">
+              <svg
+                className="mr-2 h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 8v4m0 4h.01m-6.938 4h13.856c1.054 0 1.502-1.255.732-1.988L13.732 9.27a1 1 0 00-1.464 0L4.403 18.012c-.77.733-.322 1.988.732 1.988z"
+                />
+              </svg>
+              <span>Username already taken</span>
+            </div>
+          )}
           <input
-            type="email"
+            type="text"
             name="username"
             className="input"
-            placeholder="Email"
-            onChange={(e) => setusername(e.target.value)}
+            placeholder="Username"
+            onChange={(e) => checkexisteduser(e.target.value)}
             required
           />
           <input
@@ -78,8 +114,8 @@ function Register() {
           />
           <button
             type="submit"
-            className={`loginbtn ${!isvalid ? "cursor-not-allowed opacity-50" : "opacity-100"}`}
-            disabled={!isvalid}
+            className={`loginbtn ${cansubmit ? "cursor-not-allowed opacity-50" : ""}`}
+            disabled={cansubmit}
           >
             Register
           </button>
