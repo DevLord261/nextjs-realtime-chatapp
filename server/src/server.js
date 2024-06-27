@@ -8,11 +8,6 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-  const server = createServer((req, res) => {
-    const parsedUrl = parse(req.url, true);
-    handle(req, res, parsedUrl);
-  });
-
   const io = socketIo(server, {
     cors: {
       origin: "http://127.0.0.1:3000", // Allow your client's origin
