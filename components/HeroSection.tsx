@@ -7,7 +7,8 @@ import Dots from "@/public/dots.svg";
 interface props {
   logout: () => void;
 }
-function HeroSection({ logout }: props) {
+
+function HeroSection() {
   return (
     <div className="flex w-full flex-col">
       <div className="flex flex-row justify-between pl-3">
@@ -15,12 +16,7 @@ function HeroSection({ logout }: props) {
           <Image src={Logo} alt="error happened" />
           <span className={styles.bubble}>Chat Bubble</span>
         </div>
-        <Image
-          src={Dots}
-          alt="failed"
-          onClick={logout}
-          className="cursor-pointer"
-        />
+        <Image src={Dots} alt="failed" className="cursor-pointer" />
       </div>
 
       <div className="ml-2 mt-3 flex flex-row items-center space-x-0 md:space-x-12">

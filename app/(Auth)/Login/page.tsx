@@ -1,12 +1,7 @@
 "use client";
-import { auth } from "@/backend/fbcontext";
+
 import "../Auth.css";
-import {
-  AuthErrorCodes,
-  User,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -18,23 +13,8 @@ function Login() {
 
   const sign = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, username, pass)
-      .then((_user) => {
-        route.push("/");
-      })
-      .catch((error) => {
-        if (
-          error.code == AuthErrorCodes.INVALID_EMAIL ||
-          error.code == AuthErrorCodes.INVALID_PASSWORD
-        )
-          setfail(true);
-      });
   };
 
-
-  onAuthStateChanged(auth, (_user) => {
-    if (_user) route.push("/");
-  });
   return (
     <div className="rootpage flex h-screen w-screen flex-col items-center justify-center">
       {/* content */}
