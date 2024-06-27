@@ -36,7 +36,7 @@ function Register() {
       await axios
         .post(`${API}/register`, {
           username: username,
-          password: pas,
+          password: pass,
         })
         .then((res) => {
           console.log(res);
