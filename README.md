@@ -1,27 +1,26 @@
 a realtime chat app using nextjs and socket.io for message
-## Getting Started
+
+# Getting Started
 
 First, run the development server:
 
 ```bash
+npm install
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 to run the socket.io server run:
-```
-node --watch backend/server.js
 
+```bash
+cd server 
+
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Features
 
-## Future features 
-
-Sqlite for saving chats and users instead of firebase 
+sqlite to save database with users and else
+socket.io for real time chating 
