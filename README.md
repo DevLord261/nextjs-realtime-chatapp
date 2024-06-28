@@ -23,4 +23,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Features
 
 sqlite to save database with users and else
-socket.io for real time chating 
+socket.io for real time chating  
