@@ -50,6 +50,23 @@ class DBContext {
       );
     });
   }
+
+  async signin(username, password) {
+    return new Promise((resolve, reject) => {
+      this.db.get(
+        "select * from Users where username=? and password=?",
+        [username, password],
+        (err, result) => {
+          if (err) {
+            console.error(err.message);
+            return reject(err);
+          }
+          console.log(result);
+          return resolve(result !== undefined);
+        },
+      );
+    });
+  }
 }
 
 module.exports = { DBContext };

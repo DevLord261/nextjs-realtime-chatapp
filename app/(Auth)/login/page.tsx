@@ -4,15 +4,33 @@ import "../Auth.css";
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Login() {
   const [username, setusername] = useState("");
   const [pass, setpass] = useState("");
   const [fail, setfail] = useState(false);
   const route = useRouter();
-
-  const sign = (e: { preventDefault: () => void }) => {
+  const API = process.env.NEXT_PUBLIC_BASE_API_URL;
+  const sign = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    try {
+      await axios
+        .post(`${API}/login`, {
+          username: username,
+          password: pass,
+        })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.result) {
+            console.log(res.data);
+            route.push("/");
+          }
+        });
+    } catch (e: any) {
+      console.error(e.message);
+      throw e;
+    }
   };
 
   return (
@@ -26,7 +44,7 @@ function Login() {
           onSubmit={sign}
         >
           <input
-            type="email"
+            type="text"
             name="username"
             className="input"
             placeholder="Username"

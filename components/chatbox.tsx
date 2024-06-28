@@ -18,7 +18,6 @@ function Mainchat() {
   const [messages, setmessages] = useState<message[]>([]);
 
   function sendto(recpientid: string | undefined, msg: string) {
-    console.log("sendto");
     socket?.emit("private message", {
       to: recpientid,
       from: socket?.id,
@@ -32,7 +31,7 @@ function Mainchat() {
   }
 
   useEffect(() => {
-    socket?.on("recive message", ({ from, message }) => {
+    socket?.on("recieve message", ({ from, message }) => {
       console.log(`message recieved from ${from}:${message}`);
       const rec: message = {
         msg: message,

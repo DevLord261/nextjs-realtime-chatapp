@@ -6,7 +6,7 @@ const useSocket = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    const socketIo = io("http://localhost:3001");
+    const socketIo = io("http://localhost:4000");
     setSocket(socketIo);
     return () => {
       socketIo.disconnect();

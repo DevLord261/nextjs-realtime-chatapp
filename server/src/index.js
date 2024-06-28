@@ -21,7 +21,7 @@ const io = new Index(httpServer, {
   cors: corsOptions,
 });
 
-const port = 3001;
+const port = 4000;
 const context = new DBContext();
 
 // Find socket by user ID function
@@ -57,16 +57,30 @@ app.post("/api/register", async (req, res) => {
   }
 });
 
+app.post("/api/login", async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    await context.signin(username, password).then((result) => {
+      if (result) return res.json({ result: true });
+      return res.json({ result: false });
+    });
+  } catch (e) {
+    console.error(e.message);
+    return res.status(500).json({ error: "An error occurred" });
+  }
+});
+
 // Socket.IO connection event
 io.on("connection", (socket) => {
   console.log("A user connected");
 
   // Handle custom event
-  socket.on("custom_event", (data) => {
-    console.log("Received custom_event:", data);
+  socket.on("private message", (message) => {
+    console.log(message);
     // Emit an event to the client
-    socket.emit("custom_response", {
-      message: "This is a response from server",
+    socket.to(message.to).emit("recieve message", {
+      from: message.from,
+      message: message.message,
     });
   });
 
