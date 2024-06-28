@@ -9,6 +9,16 @@ class DBContext {
       }
       console.log("Connected to the SQLite database.sqlite3.");
     });
+    this.db.run(
+      "create table if not exists Users(" +
+        "ID TEXT PRIMARY_KEY NOT NULL," +
+        "username TEXT NOT NULL UNIQUE," +
+        "hashpassword TEXT NOT NULL);",
+      (err) => {
+        if (err) throw err;
+        console.log("database created");
+      },
+    );
   }
 
   generateUUID() {
