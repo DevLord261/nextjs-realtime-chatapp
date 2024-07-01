@@ -64,7 +64,7 @@ class DBContext {
   async signin(username, password) {
     return new Promise((resolve, reject) => {
       this.db.get(
-        "select * from Users where username=? and password=?",
+        "select * from Users where username=? and hashpassword=?",
         [username, password],
         (err, result) => {
           if (err) {

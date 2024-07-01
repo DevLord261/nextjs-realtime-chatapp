@@ -7,7 +7,8 @@ const { DBContext } = require("./DBContext");
 
 const app = express();
 const httpServer = createServer(app);
-
+const jwt = require("jsonwebtoken");
+const secretkey = "enjoywebprogramming";
 // Configure CORS for Express
 const corsOptions = {
   origin: ["http://127.0.0.1:3000", "http://localhost:3000"], // Replace with your frontend domain
@@ -48,8 +49,13 @@ app.post("/api/register", async (req, res) => {
   const { username, password } = req.body;
   try {
     await context.newuser(username, password).then((result) => {
-      if (result) return res.json({ result: true });
-      return res.json({ result: "error" });
+      if (result) {
+        var token = jwt.sign({ user: username, pass: password }, secretkey, {
+          expiresIn: "1h",
+        });
+        return res.json({ result: true, accessToken: token });
+      }
+      return res.json({ result: false });
     });
   } catch (e) {
     console.error(e);
@@ -61,8 +67,26 @@ app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
   try {
     await context.signin(username, password).then((result) => {
-      if (result) return res.json({ result: true });
+      if (result) {
+        var token = jwt.sign({ user: username, pass: password }, secretkey, {
+          expiresIn: "1h,
+        });
+        return res.json({ result: true, accessToken: token });
+      }
       return res.json({ result: false });
+    });
+  } catch (e) {
+    console.error(e.message);
+    return res.status(500).json({ error: "An error occurred" });
+  }
+});
+
+app.get("/api/checklogin", async (req, res) => {
+  const { accesstoken } = req.body;
+  try {
+    jwt.verify(accesstoken, secretkey, function(err, result) {
+      if (err) return res.json({ result: false });
+      return res.json({ result: true });
     });
   } catch (e) {
     console.error(e.message);

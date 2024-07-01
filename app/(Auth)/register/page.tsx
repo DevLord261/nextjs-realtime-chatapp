@@ -39,8 +39,12 @@ function Register() {
           password: pass,
         })
         .then((res) => {
-          console.log(res);
-          route.push("/");
+          const data = res.data;
+          if (data.result) {
+            sessionStorage.setItem("username", username);
+            localStorage.setItem("accessToken", data.accessToken);
+            route.push("/");
+          }
         });
     } catch (e) {
       console.error(e);
