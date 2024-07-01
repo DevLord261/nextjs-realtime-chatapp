@@ -69,7 +69,7 @@ app.post("/api/login", async (req, res) => {
     await context.signin(username, password).then((result) => {
       if (result) {
         var token = jwt.sign({ user: username, pass: password }, secretkey, {
-          expiresIn: "1h,
+          expiresIn: "1h",
         });
         return res.json({ result: true, accessToken: token });
       }
@@ -84,7 +84,7 @@ app.post("/api/login", async (req, res) => {
 app.get("/api/checklogin", async (req, res) => {
   const { accesstoken } = req.body;
   try {
-    jwt.verify(accesstoken, secretkey, function(err, result) {
+    jwt.verify(accesstoken, secretkey, function (err, result) {
       if (err) return res.json({ result: false });
       return res.json({ result: true });
     });
