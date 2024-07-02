@@ -17,14 +17,13 @@ function Register() {
 
   const checkexisteduser = async (name: string) => {
     try {
-      await axios
-        .post(`${API}/checkuser`, {
-          username: name,
-        })
-        .then((res) => {
-          setisvalid(res.data.exists);
-          setusername(name);
-        });
+      const respone = await axios.post(`${API}/checkuser`, {
+        username: name,
+      });
+      const data = await respone.data;
+
+      setisvalid(data.exists);
+      setusername(name);
     } catch (e: any) {
       console.error(e.message);
     }

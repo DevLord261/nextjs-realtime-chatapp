@@ -16,7 +16,7 @@ function Login() {
     e.preventDefault();
     try {
       await axios
-        .post(`${API}/login`, {
+        .post("http://localhost:3000/api/login", {
           username: username,
           password: pass,
         })

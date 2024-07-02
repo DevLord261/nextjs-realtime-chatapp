@@ -22,22 +22,24 @@ function Contacts() {
     });
   }
   useEffect(() => {
-    const checkToken = () => {
+    const checkToken = async () => {
       const storedToken = localStorage.getItem("accessToken");
+      if (!storedToken) {
+        route.push("/login");
+        return;
+      }
       try {
-        axios
-          .get(`${API}/checklogin`, {
-            headers: {
-              Authorization: `Bearer ${storedToken}`,
-            },
-          })
-          .then((result) => {
-            const data = result.data;
-            console.log(data.result);
-            if (!data.result) route.push("/login");
-          });
+        const response = await axios.get(`${API}/checklogin`, {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        });
+        const data = await response.data;
+        console.log("check token", data);
       } catch (e: any) {
         console.error(e.message);
+        localStorage.removeItem("accessToken"); // Clear the invalid token
+        route.push("/login");
       }
     };
 
