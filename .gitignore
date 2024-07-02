@@ -5,7 +5,7 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
-
+.idea
 # testing
 /coverage
 
@@ -36,3 +36,4 @@ yarn-error.log*
 next-env.d.ts
 
 database.sqlite3
+
